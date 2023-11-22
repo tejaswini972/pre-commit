@@ -26,14 +26,11 @@ foreach($ext in $listOfExtensions) {
         Write-Host "Checking $fileName for secrets"
         $script= Get-Content -Path $fileName
         foreach($secretName in $listOfSecretNodes) {
-            $nodes = $script.SelectNodes("//*[contains(local-name(), '$secretName')]")
-            foreach($node in $nodes) {
-                if ($node.InnerText.ToLowerInvariant() -ne $acceptableString) {
-                    $str = "[$fileName] $($node.Name) contains text other than '$acceptableString', please replace this with $acceptableString before commiting."
+                if ($script -match $secretName) {
+                    $str = "[$fileName] $($secretName) contains text other than '$acceptableString', please replace this with $acceptableString before commiting."
                     $errorList.Add($str) | Out-Null
                     Write-Warning $str
                 }
-            }
         }
     }
 }
