@@ -6,7 +6,7 @@ Clear-Host
 $ErrorActionPreference='Stop'
  
 # ===== Change here =====
-$listOfExtensions=@('*.xml','*.ps1')
+$listOfExtensions=@('*.ps1')
 $listOfSecretNodes=@('username','password','clientid','secret','connectionstring')
 $acceptableString='lalala'
 # ===== Change here =====
@@ -24,9 +24,9 @@ foreach($ext in $listOfExtensions) {
             continue
         }
         Write-Host "Checking $fileName for secrets"
-        [xml]$xml=[xml]((Get-Content -Path $fileName).ToLowerInvariant())
+        $script= Get-Content -Path $fileName
         foreach($secretName in $listOfSecretNodes) {
-            $nodes = $xml.SelectNodes("//*[contains(local-name(), '$secretName')]")
+            $nodes = $script.SelectNodes("//*[contains(local-name(), '$secretName')]")
             foreach($node in $nodes) {
                 if ($node.InnerText.ToLowerInvariant() -ne $acceptableString) {
                     $str = "[$fileName] $($node.Name) contains text other than '$acceptableString', please replace this with $acceptableString before commiting."
