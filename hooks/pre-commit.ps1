@@ -6,7 +6,7 @@ Clear-Host
 $ErrorActionPreference='Stop'
  
 # ===== Change here =====
-$listOfExtensions=@('*.xml','*.config')
+$listOfExtensions=@('*.xml','*.ps1')
 $listOfSecretNodes=@('username','password','clientid','secret','connectionstring')
 $acceptableString='lalala'
 # ===== Change here =====
